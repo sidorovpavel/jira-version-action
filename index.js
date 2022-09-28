@@ -14,10 +14,10 @@ async function run () {
 
    // const actions = ['checkVersion', 'createVersion', 'renameVersion', 'setVersionToIssues', 'getIssueSummery'];
     const actions = {
-      'checkVersion': checkVersion(version),
-      'createVersion': createVersion(version),
-      'renameVersion': renameVersion(version, newName),
-      'setVersionToIssues': setVersionToIssues(version, issues)
+      'checkVersion': () => checkVersion(version),
+      'createVersion': () => createVersion(version),
+      'renameVersion': () => renameVersion(version, newName),
+      'setVersionToIssues': () => setVersionToIssues(version, issues)
     }
 
     if(!actions.hasOwnProperty(action)) {
@@ -25,7 +25,7 @@ async function run () {
       process.exit(1);
     }
 
-    const result = await actions[action];
+    const result = await actions[action]();
     console.log(result);
     setOutput('result', result);
 

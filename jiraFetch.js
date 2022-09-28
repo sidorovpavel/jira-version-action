@@ -3,28 +3,27 @@ const YAML = require("yaml");
 const fs = require("fs");
 
 class JiraFetch {
-  #authString;
   #baseUrl;
+  #headers;
 
   constructor() {
     const configPath = `${process.env.HOME}/jira/config.yml`
     const { email, token, baseUrl } = YAML.parse(fs.readFileSync(configPath, 'utf8'));
-    this.#authString = Buffer.from(`${email}:${token}`).toString('base64');
+    const authString = Buffer.from(`${email}:${token}`).toString('base64');
     this.#baseUrl = baseUrl;
+    this.#headers = { Accept: 'application/json', Authorization: `Basic ${(authString)}` }
   }
 
   #url = (command) => `${this.#baseUrl}/rest/api/3/${command}`;
 
   getRequest = async (command) => {
-    console.log(this.#url(command), this.#baseUrl.length);
+    const url = this.#url(command);
+    console.log(url);
     const res = await fetch(
-      this.#url(command),
+      url,
       {
         method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Basic ${(this.#authString)}`,
-        },
+        headers: this.#headers,
       },
     );
 
@@ -37,8 +36,7 @@ class JiraFetch {
       {
         method: isUpdate ? 'PUT' : 'POST',
         headers: {
-          Accept: 'application/json',
-          Authorization: `Basic ${this.#authString}`,
+          ...this.#headers,
           'Content-Type': 'application/json',
         },
         body,

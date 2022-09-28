@@ -46,12 +46,15 @@ class Jira {
 
   checkVersion = async (version) => {
     const result = await this.#api.findProjectVersionByName(this.#project, version);
+    console.log(result);
     return !!result;
   }
 
   createVersion = async (version) => {
     const projectId = await this.#api.getProjectId(this.#project);
-    return !!await this.#api.createVersion(projectId, version);
+    const result = await this.#api.createVersion(projectId, version);
+    console.log(result);
+    return !!result;
   }
 
   renameVersion = async (oldName, newName) => {
@@ -62,7 +65,9 @@ class Jira {
     if (!version) {
       return false;
     }
-    return await this.#api.renameVersion(version, newName);
+    const result = await this.#api.renameVersion(version, newName);
+    console.log(result);
+    return !!result;
   }
 }
 

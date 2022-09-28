@@ -9,7 +9,7 @@ class JiraFetch {
 
   constructor() {
     const configPath = `${process.env.HOME}/jira/config.yml`
-    const {email, token, baseUrl} = YAML.parse(fs.readFileSync(configPath, 'utf8'));
+    const { email, token, baseUrl } = YAML.parse(fs.readFileSync(configPath, 'utf8'));
     this.#authString = Buffer.from(`${email}:${token}`).toString('base64');
     this.#url = (command) => `${baseUrl}/rest/api/3/${command}`;
   }
@@ -25,6 +25,8 @@ class JiraFetch {
         },
       },
     );
+
+    console.log('request');
     return res.json();
   };
 

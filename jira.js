@@ -49,7 +49,14 @@ class Jira {
   }
 
   renameVersion = async (oldName, newName) => {
+    if (!newName) {
+      return false;
+    }
     const version = await this.#api.findProjectVersionByName(this.#project, oldName);
+    console.log(version)
+    if (!version) {
+      return false;
+    }
     return await this.#api.renameVersion(version, newName);
   }
 }

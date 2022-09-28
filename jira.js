@@ -45,7 +45,7 @@ class Jira {
       return false;
     }
     const result = await Promise.all([
-      ...issues.map(async (item) => this.#api.issueSetVersion(item, version)),
+      ...issues.map(async (issue) => await this.#api.issueSetVersion(issue, version)),
     ]);
     console.log(result);
 

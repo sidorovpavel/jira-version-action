@@ -59,7 +59,6 @@ class Jira {
       return false;
     }
     const version = await this.#api.findProjectVersionByName(this.#project, oldName);
-    console.log(version)
     if (!version) {
       return false;
     }

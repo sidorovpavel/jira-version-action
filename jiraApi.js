@@ -43,6 +43,6 @@ class JiraApi {
     `{ "update": { "fixVersions": [ { "set": [ { "id": "${id}" } ] } ] } }`,
     true);
 
-  renameVersion = (version, name) => this.#jiraFetch.setRequest(`version/${version.id}`, { name, ...version }, true);
+  renameVersion = (version, name) => this.#jiraFetch.setRequest(`version/${version.id}`, { ...version, name }, true);
 }
 module.exports = JiraApi;

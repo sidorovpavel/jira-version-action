@@ -1,0 +1,22 @@
+name: "jira-version-action"
+
+description: "Action to set the version in a set of issues"
+
+branding:
+  icon: git-pull-request
+  color: green
+
+inputs:
+  project-name:
+    required: true
+    description: "Alias of Project"
+  release-version:
+    required: true
+    description: "Version of release"
+  issues:
+    required: false
+    description: "Set of issues"
+
+runs:
+  using: "node16"
+  main: "./dist/index.js"

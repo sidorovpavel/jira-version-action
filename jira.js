@@ -28,8 +28,14 @@ class Jira {
       .sort((a, b) => sortArray.indexOf(b.issueType) - sortArray.indexOf(a.issueType));
   };
 
-  setVersionToIssues = async (versionName, issues) => {
-    console.log(issues, typeof issues, JSON.parse(issues));
+  setVersionToIssues = async (versionName, issuesString) => {
+    let issues = [];
+
+    try {
+      issues = JSON.parse(issuesString)
+    } catch (e) {
+      return false;
+    }
 
     if(!issues.length) {
       return false;

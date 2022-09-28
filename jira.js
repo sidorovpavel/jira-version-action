@@ -29,19 +29,28 @@ class Jira {
   };
 
   setVersionToIssues = async (versionName, issues) => {
-    let version = await this.#api.findProjectVersionByName(this.#project, versionName);
-    if (!version) {
-      const projectId = await this.#api.getProjectId(this.#project);
-      version = await this.#api.createVersion(projectId, versionName);
-    }
-    return Promise.all([
+    const version = await this.#api.findProjectVersionByName(this.#project, versionName);
+    const result = await Promise.all([
       ...issues.map(async (item) => this.#api.issueSetVersion(item, version)),
     ]);
+    console.log(result);
+
+    return result;
   };
 
   checkVersion = async (version) => {
     const result = await this.#api.findProjectVersionByName(this.#project, version);
     return !!result;
+  }
+
+  createVersion = async (version) => {
+    const projectId = await this.#api.getProjectId(this.#project);
+    return !!await this.#api.createVersion(projectId, version);
+  }
+
+  renameVersion = async (oldName, newName) => {
+    const version = await this.#api.findProjectVersionByName(this.#project, oldName);
+    return await this.#api.renameVersion(version, newName);
   }
 }
 

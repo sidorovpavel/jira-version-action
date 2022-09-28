@@ -18,7 +18,6 @@ class JiraFetch {
 
   getRequest = async (command) => {
     const url = this.#url(command);
-    console.log(fetch);
     const res = await fetch(
       url,
       {
@@ -27,7 +26,6 @@ class JiraFetch {
       },
     );
 
-    console.log(res);
     return res.json();
   };
 

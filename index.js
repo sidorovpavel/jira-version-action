@@ -5,14 +5,19 @@ async function run () {
   const { getInput, setFailed, setOutput } = core;
 
   try {
-    const project = getInput('project', { required: true });
-    const version = getInput('version', { required: true });
-    const action = getInput('action', { required: true });
-    const jira = new Jira(project)
+    const project = getInput('project', { required: true }).trim();
+    const version = getInput('version', { required: true }).trim();
+    const action = getInput('action', { required: true }).trim();
+    const issues = getInput('issues', { required: false });
+    const newName = getInput('new-name', { required: false });
+    const { checkVersion, createVersion, setVersionToIssues, renameVersion } = new Jira(project)
 
-   // const actions = ['checkVersion', 'createVersion', 'renameVersion', 'issuesSetVersion', 'getIssueSummery'];
+   // const actions = ['checkVersion', 'createVersion', 'renameVersion', 'setVersionToIssues', 'getIssueSummery'];
     const actions = {
-      'checkVersion': jira.checkVersion(version)
+      'checkVersion': checkVersion(version),
+      'createVersion': createVersion(version),
+      'renameVersion': renameVersion(version, newName),
+      'setVersionToIssues': setVersionToIssues(version, issues)
     }
 
     if(!actions.hasOwnProperty(action)) {

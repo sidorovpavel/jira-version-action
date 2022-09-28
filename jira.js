@@ -36,11 +36,13 @@ class Jira {
     } catch (e) {
       return false;
     }
-
+    console.log(issues.length);
     if(!issues.length) {
       return false;
     }
+
     const version = await this.#api.findProjectVersionByName(this.#project, versionName);
+    console.log(version);
     if (!version) {
       return false;
     }

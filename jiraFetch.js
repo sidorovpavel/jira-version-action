@@ -4,17 +4,19 @@ const fs = require("fs");
 
 class JiraFetch {
   #authString;
-
-  #url;
+  #baseUrl;
 
   constructor() {
     const configPath = `${process.env.HOME}/jira/config.yml`
     const { email, token, baseUrl } = YAML.parse(fs.readFileSync(configPath, 'utf8'));
     this.#authString = Buffer.from(`${email}:${token}`).toString('base64');
-    this.#url = (command) => `${baseUrl}/rest/api/3/${command}`;
+    this.#baseUrl = baseUrl;
   }
 
+  #url = (command) => `${this.#baseUrl}/rest/api/3/${command}`;
+
   getRequest = async (command) => {
+    console.log(this.#url(command), this.#baseUrl.length);
     const res = await fetch(
       this.#url(command),
       {

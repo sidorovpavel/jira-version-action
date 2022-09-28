@@ -1,21 +1,29 @@
-const fs = require('fs')
-const YAML = require('yaml')
 const core = require('@actions/core')
 const Jira = require('./jira')
 
-const configPath = `${process.env.HOME}/jira/config.yml`
-const githubToken = process.env.GITHUB_TOKEN
-const config = YAML.parse(fs.readFileSync(configPath, 'utf8'));
-
-
 async function run () {
   const { getInput, setFailed, setOutput } = core;
-  try {
-    const projectName = getInput('project-name', { required: true });
-    const jira = new Jira(config, projectName);
 
-    console.log(githubToken);
-    console.log(config);
+  try {
+    const project = getInput('project', { required: true });
+    const version = getInput('version', { required: true });
+    const action = getInput('action', { required: true });
+    const jira = new Jira(project)
+
+   // const actions = ['checkVersion', 'createVersion', 'renameVersion', 'issuesSetVersion', 'getIssueSummery'];
+    const actions = {
+      'checkVersion': jira.checkVersion(version)
+    }
+
+    if(!actions.hasOwnProperty(action)) {
+      setFailed('You must use valid action');
+      process.exit(1);
+    }
+
+    const result = await actions[action];
+
+    console.log(result)
+
     process.exit(0);
   } catch (error) {
     console.error(error)

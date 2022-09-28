@@ -4,8 +4,8 @@ const moment = require('moment');
 class JiraApi {
   #jiraFetch
 
-  constructor(config) {
-    this.#jiraFetch = new JiraFetch(config);
+  constructor() {
+    this.#jiraFetch = new JiraFetch();
   }
 
   getIssueType = async () => {

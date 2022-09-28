@@ -7,10 +7,10 @@ branding:
   color: green
 
 inputs:
-  project-name:
+  project:
     required: true
     description: "Alias of Project"
-  release-version:
+  version:
     required: true
     description: "Version of release"
   issues:

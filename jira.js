@@ -29,7 +29,7 @@ class Jira {
   };
 
   setVersionToIssues = async (versionName, issues) => {
-    console.log(issues, Array.isArray(issues));
+    console.log(issues, Array.isArray(issues), JSON.parse(issues));
 
     if(!issues.length) {
       return false;

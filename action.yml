@@ -19,6 +19,9 @@ inputs:
   issues:
     required: false
     description: "Set of issues"
+  new-name:
+    required: false
+    description: "New name for version"
 
 runs:
   using: "node16"

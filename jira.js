@@ -40,7 +40,8 @@ class Jira {
   };
 
   checkVersion = async (version) => {
-    await this.#api.findProjectVersionByName(this.#project, version);
+    const result = await this.#api.findProjectVersionByName(this.#project, version);
+    return !!result;
   }
 }
 

@@ -21,8 +21,8 @@ async function run () {
     }
 
     const result = await actions[action];
-
-    console.log(result)
+    console.log(result);
+    setOutput('result', result);
 
     process.exit(0);
   } catch (error) {

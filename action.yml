@@ -13,6 +13,9 @@ inputs:
   version:
     required: true
     description: "Version of release"
+  action:
+    required: true
+    description: "Action id"
   issues:
     required: false
     description: "Set of issues"

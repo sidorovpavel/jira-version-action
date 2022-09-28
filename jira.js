@@ -29,7 +29,13 @@ class Jira {
   };
 
   setVersionToIssues = async (versionName, issues) => {
+    if(!issues.length) {
+      return false;
+    }
     const version = await this.#api.findProjectVersionByName(this.#project, versionName);
+    if (!version) {
+      return false;
+    }
     const result = await Promise.all([
       ...issues.map(async (item) => this.#api.issueSetVersion(item, version)),
     ]);

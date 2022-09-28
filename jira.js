@@ -76,7 +76,7 @@ class Jira {
       return false;
     }
     const result = await this.#api.renameVersion(version, newName);
-
+    console.log(result);
     return !result.errors;
   }
 }

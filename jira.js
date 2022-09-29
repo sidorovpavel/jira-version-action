@@ -49,7 +49,7 @@ class Jira {
       return false;
     }
     const result = await Promise.all(
-      issues.map(async (issue) => await this.#api.issueSetVersion(issue, id)),
+      issues.map((issue) => this.#api.issueSetVersion(issue, id)),
     );
 
     return result.map((item) => this.#checkResult(item)).find((item) => !item) === undefined
@@ -79,6 +79,23 @@ class Jira {
     const result = await this.#api.renameVersion(version.id, newName);
 
     return this.#checkResult(result);
+  }
+
+  getBranchSummary = async (name) => {
+    const jiraMatcher = /\d+-[A-Z]+(?!-?[a-zA-Z]{1,10})/g;
+    const names = name.split('').reverse().join('').match(jiraMatcher);
+    if (!names) {
+      return false;
+    }
+    const [ firstMatch ] = names;
+    const id = firstMatch.split('').reverse().join('');
+
+    try {
+      const {summary, key} = this.#api.getIssue(id);
+      return `${key} / ${summary}`
+    } catch (e) {
+      return false;
+    }
   }
 }
 

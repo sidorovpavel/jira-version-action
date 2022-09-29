@@ -6,18 +6,20 @@ async function run () {
 
   try {
     const project = getInput('project', { required: true }).trim();
-    const version = getInput('version', { required: true }).trim();
     const action = getInput('action', { required: true }).trim();
+    const version = getInput('version', { required: false }).trim();
     const issues = getInput('issues', { required: false });
     const newName = getInput('new-name', { required: false });
-    const { checkVersion, createVersion, setVersionToIssues, renameVersion } = new Jira(project)
+    const branch = getInput('branch-name', { required: false });
+    const { checkVersion, createVersion, setVersionToIssues, renameVersion, getBranchSummary } = new Jira(project)
 
    // const actions = ['checkVersion', 'createVersion', 'renameVersion', 'setVersionToIssues', 'getIssueSummery'];
     const actions = {
       'checkVersion': () => checkVersion(version),
       'createVersion': () => createVersion(version),
       'renameVersion': () => renameVersion(version, newName),
-      'setVersionToIssues': () => setVersionToIssues(version, issues)
+      'setVersionToIssues': () => setVersionToIssues(version, issues),
+      'getBranchSummary': () => getBranchSummary(branch-name)
     }
 
     if(!actions.hasOwnProperty(action)) {

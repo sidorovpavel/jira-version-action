@@ -17,7 +17,6 @@ class JiraFetch {
   #fetch = (command, opts = {}) =>
     fetch(`${this.#baseUrl}/rest/api/3/${command}`, { method: 'GET', headers: this.#headers, ...opts })
 
-
   getRequest = async (command) => {
     const res = await this.#fetch(command)
 

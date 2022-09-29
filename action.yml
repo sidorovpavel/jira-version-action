@@ -10,18 +10,21 @@ inputs:
   project:
     required: true
     description: "Alias of Project"
-  version:
-    required: true
-    description: "Version of release"
   action:
     required: true
     description: "Action id"
+  version:
+    required: true
+    description: "Version of release"
   issues:
     required: false
     description: "Set of issues"
   new-name:
     required: false
     description: "New name for version"
+  branch-name:
+    required: false
+    description: "Name of branch"
 
 runs:
   using: "node16"

@@ -43,7 +43,7 @@ class Jira {
     }
 
     const version = await this.#api.findProjectVersionByName(this.#project, versionName);
-    console.log(version, issues);
+    console.log(version, issues, issuesString);
     if (!version) {
       return false;
     }

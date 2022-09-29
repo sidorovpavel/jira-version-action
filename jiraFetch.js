@@ -14,37 +14,48 @@ class JiraFetch {
     this.#headers = { Accept: 'application/json', Authorization: `Basic ${(authString)}` }
   }
 
-  #url = (command) => `${this.#baseUrl}/rest/api/3/${command}`;
+  #fetch = (command, opts = {}) =>
+    fetch(`${this.#baseUrl}/rest/api/3/${command}`, { method: 'GET', headers: this.#headers, ...opts })
+
 
   getRequest = async (command) => {
-    const url = this.#url(command);
-    const res = await fetch(
-      url,
-      {
-        method: 'GET',
-        headers: this.#headers,
-      },
-    );
+    const res = await this.#fetch(command)
 
     return res.json();
   };
 
-  setRequest = async (command, body, isUpdate = false) => {
-
-    console.log(        {
-    ...this.#headers,
+  postRequest = async (command, body) => {
+    const res = await this.#fetch(command,{
+      method: 'POST',
+      headers: {
+        ...this.#headers,
         'Content-Type': 'application/json',
-    },this.#url(command), isUpdate ? 'PUT' : 'POST', body);
-    const res = await fetch(this.#url(command),
-      {
-        method: isUpdate ? 'PUT' : 'POST',
-        headers: {
-          ...this.#headers,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+      },
+      body: JSON.stringify(body)})
     return res.json();
+  };
+
+  putRequest = async (command, body) => {
+    const res = await this.#fetch(command,{
+      method: 'PUT',
+      headers: {
+        ...this.#headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)});
+    return res.json();
+  };
+
+  putRequestText = async (command, body) => {
+    const res = await this.#fetch(command,{
+      method: 'PUT',
+      headers: {
+        ...this.#headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)});
+
+    return res.text();
   };
 }
 

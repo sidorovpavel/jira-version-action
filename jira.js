@@ -11,6 +11,7 @@ class Jira {
   }
 
   #checkResult = ({errors = {} , errorMessages = []}) => errorMessages.length === 0 &&   Object.keys(errors).length === 0
+
   getIssues = async (arr) => {
     const [types, ...issues] = await Promise.all([
       this.#api.getIssueType(),
@@ -38,21 +39,20 @@ class Jira {
       return false;
     }
 
-    if(!issues.length) {
+    if(!Array.isArray(issues) || !issues.length) {
       return false;
     }
 
-    const version = await this.#api.findProjectVersionByName(this.#project, versionName);
-    console.log(version, issues, issuesString);
-    if (!version) {
+    const { id } = await this.#api.findProjectVersionByName(this.#project, versionName);
+
+    if (!id) {
       return false;
     }
-    const result = await Promise.all([
-      ...issues.map(async (issue) => await this.#api.issueSetVersion(issue, version)),
-    ]);
-    console.log(result);
+    const result = await Promise.all(
+      issues.map((issue) => this.#api.issueSetVersion(issue, id)),
+    );
 
-    return this.#checkResult(result);
+    return result.map((item) => this.#checkResult(item)).find((item) => !item) === undefined
   };
 
   checkVersion = async (version) => {

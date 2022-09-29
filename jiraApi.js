@@ -44,6 +44,6 @@ class JiraApi {
     true);
 
   renameVersion = ({ userReleaseDate, id, ...version }, name) =>
-    this.#jiraFetch.setRequest(`version/${id}`, { ...version, id, name }, true);
+    this.#jiraFetch.setRequest(`version/${id}`, { name }, true);
 }
 module.exports = JiraApi;

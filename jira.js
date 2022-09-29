@@ -36,7 +36,7 @@ class Jira {
     } catch (e) {
       return false;
     }
-    console.log(issues.length);
+
     if(!issues.length) {
       return false;
     }
@@ -56,7 +56,7 @@ class Jira {
 
   checkVersion = async (version) => {
     const result = await this.#api.findProjectVersionByName(this.#project, version);
-    console.log(result);
+
     return !!result;
   }
 

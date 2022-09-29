@@ -81,12 +81,17 @@ class Jira {
   getBranchSummary = async (name) => {
     const jiraMatcher = /\d+-[A-Z]+(?!-?[a-zA-Z]{1,10})/g;
     const names = name.split('').reverse().join('').match(jiraMatcher);
+    console.log(names);
     if (!names) {
       return false;
     }
     const [ firstMatch ] = names;
+
+    console.log(firstMatch);
+
     const id = firstMatch.split('').reverse().join('');
 
+    console.log({id});
     try {
       const {summary, key} = this.#api.getIssue(id);
       return `${key} / ${summary}`

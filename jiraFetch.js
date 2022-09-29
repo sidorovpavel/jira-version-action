@@ -30,6 +30,7 @@ class JiraFetch {
   };
 
   setRequest = async (command, body, isUpdate = false) => {
+
     console.log(        {
     ...this.#headers,
         'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ class JiraFetch {
           ...this.#headers,
           'Content-Type': 'application/json',
         },
-        body,
+        body: JSON.stringify(body),
       });
     return res.json();
   };

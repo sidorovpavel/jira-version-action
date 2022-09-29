@@ -49,7 +49,7 @@ class Jira {
       return false;
     }
     const result = await Promise.all(
-      issues.map((issue) => this.#api.issueSetVersion(issue, id)),
+      issues.map(async (issue) => await this.#api.issueSetVersion(issue, id)),
     );
 
     return result.map((item) => this.#checkResult(item)).find((item) => !item) === undefined

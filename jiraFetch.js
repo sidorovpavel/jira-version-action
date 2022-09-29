@@ -30,7 +30,6 @@ class JiraFetch {
   };
 
   setRequest = async (command, body, isUpdate = false) => {
-    console.log(body);
     const res = await fetch(this.#url(command),
       {
         method: isUpdate ? 'PUT' : 'POST',
@@ -40,7 +39,7 @@ class JiraFetch {
         },
         body,
       });
-    return isUpdate ? res : res.json();
+    return res.json();
   };
 }
 

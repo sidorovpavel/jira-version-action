@@ -7,14 +7,14 @@ branding:
   color: green
 
 inputs:
-  project:
-    required: true
-    description: "Alias of Project"
   action:
     required: true
     description: "Action id"
+  project:
+    required: false
+    description: "Alias of Project"
   version:
-    required: true
+    required: false
     description: "Version of release"
   issues:
     required: false

@@ -3,11 +3,8 @@ const JiraApi = require('./jiraApi');
 class Jira {
   #api;
 
-  #project;
-
-  constructor(project) {
+  constructor() {
     this.#api = new JiraApi();
-    this.#project = project;
   }
 
   #checkResult = ({errors = {} , errorMessages = []}) => errorMessages.length === 0 &&   Object.keys(errors).length === 0
@@ -30,7 +27,7 @@ class Jira {
       .sort((a, b) => sortArray.indexOf(b.issueType) - sortArray.indexOf(a.issueType));
   };
 
-  setVersionToIssues = async (versionName, issuesString) => {
+  setVersionToIssues = async (projectName, versionName, issuesString) => {
     let issues = [];
 
     try {
@@ -43,7 +40,7 @@ class Jira {
       return false;
     }
 
-    const { id } = await this.#api.findProjectVersionByName(this.#project, versionName);
+    const { id } = await this.#api.findProjectVersionByName(projectName, versionName);
 
     if (!id) {
       return false;
@@ -55,24 +52,24 @@ class Jira {
     return result.map((item) => this.#checkResult(item)).find((item) => !item) === undefined
   };
 
-  checkVersion = async (version) => {
-    const result = await this.#api.findProjectVersionByName(this.#project, version);
+  checkVersion = async (projectName, version) => {
+    const result = await this.#api.findProjectVersionByName(projectName, version);
 
     return !!result;
   }
 
-  createVersion = async (version) => {
-    const projectId = await this.#api.getProjectId(this.#project);
+  createVersion = async (projectName, version) => {
+    const projectId = await this.#api.getProjectId(projectName);
     const result = await this.#api.createVersion(projectId, version);
 
     return this.#checkResult(result);
   }
 
-  renameVersion = async (oldName, newName) => {
+  renameVersion = async (projectName, oldName, newName) => {
     if (!newName) {
       return false;
     }
-    const version = await this.#api.findProjectVersionByName(this.#project, oldName);
+    const version = await this.#api.findProjectVersionByName(projectName, oldName);
     if (!version) {
       return false;
     }

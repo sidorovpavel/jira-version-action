@@ -10,6 +10,7 @@ class Jira {
     this.#project = project;
   }
 
+  #checkResult = ({errors = {} , errorMessages = []}) => errorMessages.length === 0 &&   Object.keys(errors).length === 0
   getIssues = async (arr) => {
     const [types, ...issues] = await Promise.all([
       this.#api.getIssueType(),
@@ -42,7 +43,7 @@ class Jira {
     }
 
     const version = await this.#api.findProjectVersionByName(this.#project, versionName);
-    console.log(version);
+    console.log(version, issues);
     if (!version) {
       return false;
     }
@@ -51,7 +52,7 @@ class Jira {
     ]);
     console.log(result);
 
-    return result;
+    return this.#checkResult(result);
   };
 
   checkVersion = async (version) => {
@@ -64,7 +65,7 @@ class Jira {
     const projectId = await this.#api.getProjectId(this.#project);
     const result = await this.#api.createVersion(projectId, version);
 
-    return !result.errors;
+    return this.#checkResult(result);
   }
 
   renameVersion = async (oldName, newName) => {
@@ -75,10 +76,9 @@ class Jira {
     if (!version) {
       return false;
     }
-    console.log(version.id);
     const result = await this.#api.renameVersion(version.id, newName);
-    console.log(result);
-    return !result.errors;
+
+    return this.#checkResult(result);
   }
 }
 

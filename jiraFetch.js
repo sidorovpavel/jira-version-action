@@ -30,7 +30,10 @@ class JiraFetch {
   };
 
   setRequest = async (command, body, isUpdate = false) => {
-    console.log(body);
+    console.log(        {
+    ...this.#headers,
+        'Content-Type': 'application/json',
+    },this.#url(command));
     const res = await fetch(this.#url(command),
       {
         method: isUpdate ? 'PUT' : 'POST',

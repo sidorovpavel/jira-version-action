@@ -33,7 +33,7 @@ class JiraFetch {
     console.log(        {
     ...this.#headers,
         'Content-Type': 'application/json',
-    },this.#url(command));
+    },this.#url(command), isUpdate ? 'PUT' : 'POST', body);
     const res = await fetch(this.#url(command),
       {
         method: isUpdate ? 'PUT' : 'POST',
